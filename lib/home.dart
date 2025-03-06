@@ -1,70 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/bloc/counter.dart';
+import 'package:my_app/bloc/counter_widget.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
-  final Counter counter = Counter();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter Bloc Consumer"),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BlocConsumer<Counter, int>(
-            bloc: counter,
-            builder: (context, state) {
-              return Text(
-                "$state",
-                style: TextStyle(fontSize: 30),
-              );
-            },
-            buildWhen: (previous, current) {
-              if (current >= 10) {
-                return true;
-              } else {
-                return false;
-              }
-            },
-            listener: (context, state) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("Counter: $state"),
+        appBar: AppBar(
+          title: Text("Flutter Bloc Provider"),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                //button decrement
+                Material(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(15),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () {
+                      BlocProvider.of<Counter>(context).decrement();
+                    },
+                    child: Container(
+                      height: 100,
+                      width: 70,
+                      child: Center(
+                        child: Icon(
+                          Icons.remove,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              );
-            },
-            listenWhen: (previous, current) {
-              if (current == 15) {
-                return true;
-              } else {
-                return false;
-              }
-            },
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    counter.increment();
-                  },
-                  child: Text("Increment")),
-              ElevatedButton(
-                  onPressed: () {
-                    counter.decrement();
-                  },
-                  child: Text("Decrement")),
-            ],
-          )
-        ],
-      ),
-    );
+                // counter widget
+                CounterWidget(),
+                //button increment
+                Material(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(15),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () {
+                      BlocProvider.of<Counter>(context).increment();
+                    },
+                    child: Container(
+                      height: 100,
+                      width: 70,
+                      child: Center(
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ));
   }
 }
