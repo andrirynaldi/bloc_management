@@ -10,12 +10,26 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Flutter Bloc"),
+        title: Text("Flutter Bloc Consumer"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BlocListener<Counter, int>(
+          BlocConsumer<Counter, int>(
+            bloc: counter,
+            builder: (context, state) {
+              return Text(
+                "$state",
+                style: TextStyle(fontSize: 30),
+              );
+            },
+            buildWhen: (previous, current) {
+              if (current >= 10) {
+                return true;
+              } else {
+                return false;
+              }
+            },
             listener: (context, state) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -30,16 +44,6 @@ class MyHomePage extends StatelessWidget {
                 return false;
               }
             },
-            bloc: counter,
-            child: BlocBuilder<Counter, int>(
-              bloc: counter,
-              builder: (context, state) {
-                return Text(
-                  "$state",
-                  style: TextStyle(fontSize: 30),
-                );
-              },
-            ),
           ),
           SizedBox(
             height: 20,
