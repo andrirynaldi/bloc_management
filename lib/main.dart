@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_app/bloc/counter.dart';
-import 'package:my_app/home.dart';
-import 'package:my_app/other.dart';
+import 'package:my_app/routes/route.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,21 +7,13 @@ void main() {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  final Counter myCounter = Counter();
+
+  final MyRoute myRoute = MyRoute();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/': (context) => BlocProvider.value(
-              value: myCounter,
-              child: MyHomePage(),
-            ),
-        '/other': (context) => BlocProvider.value(
-              value: myCounter,
-              child: OtherPage(),
-            ),
-      },
+      onGenerateRoute: myRoute.onRoute,
     );
   }
 }
