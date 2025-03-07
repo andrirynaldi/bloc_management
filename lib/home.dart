@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/bloc/counter.dart';
 import 'package:my_app/bloc/counter_widget.dart';
-import 'package:my_app/other.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -69,14 +68,7 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => BlocProvider.value(
-                value: context.read<Counter>(),
-                child: OtherPage(),
-              ),
-            ),
-          );
+          Navigator.of(context).pushNamed('/other');
         },
         child: Icon(Icons.forward),
       ),
